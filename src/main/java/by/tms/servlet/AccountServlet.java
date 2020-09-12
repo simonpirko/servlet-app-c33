@@ -13,8 +13,8 @@ import java.sql.Connection;
 
 @WebServlet(urlPatterns = "/account")
 public class AccountServlet extends HomeServlet{
-
-
+    private static final String INVALID_NAME_FIELD = "short name field!";
+    private static final String INVALID_PASSWORD_FIELD = "short password field";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,7 +26,31 @@ public class AccountServlet extends HomeServlet{
         HttpSession session = req.getSession();
         UserService userService = UserServiceImpl.getInstance((Connection) session.getAttribute("connection"));
         User user =(User) session.getAttribute("user");
-        userService.update(new User(user.getId(), req.getParameter("name"), user.getLogin(), req.getParameter("password")));
+        String value = req.getParameter("value");
+
+        if (req.getParameter("field").equals("name")) {
+            if (checkField(value)){
+                user.setName(value);
+            }else{
+                req.setAttribute("message", INVALID_NAME_FIELD);
+                req.getRequestDispatcher("/account.jsp").forward(req, resp);
+                return;
+            }
+        }
+        if (req.getParameter("field").equals("password")) {
+            if (checkField(value)){
+                user.setPassword(value);
+            }else{
+                req.setAttribute("message", INVALID_PASSWORD_FIELD);
+                req.getRequestDispatcher("/account.jsp").forward(req, resp);
+                return;
+            }
+        }
+        userService.update(user);
         resp.sendRedirect("/");
+    }
+
+    private boolean checkField(String field) {
+        return field.length() > 5;
     }
 }

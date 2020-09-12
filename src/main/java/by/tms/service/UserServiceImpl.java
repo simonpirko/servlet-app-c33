@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService {
             userDao.updateById(user);
         }
     }
+
+    @Override
+    public boolean containUserByLogin(String login) {
+        return userDao.containsByLogin(login);
+    }
 }

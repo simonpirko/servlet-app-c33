@@ -12,5 +12,6 @@
     <input type="text" name="name">
     <button>Registration</button>
 </form>
+${requestScope.message}
 </body>
 </html>

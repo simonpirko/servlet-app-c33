@@ -4,7 +4,6 @@ import by.tms.entity.User;
 import by.tms.service.UserService;
 import by.tms.service.UserServiceImpl;
 import by.tms.service.exceptions.DouplicateUserException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +15,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = "/reg")
 public class RegistrationServlet extends HttpServlet {
+    private static final String DUPLICATE_USER = "This user already exist!";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +33,7 @@ public class RegistrationServlet extends HttpServlet {
         try {
             UserServiceImpl.getInstance((Connection) req.getSession().getAttribute("connection")).createUser(user);
         } catch (DouplicateUserException e) {
+            req.setAttribute("message", DUPLICATE_USER);
             req.getRequestDispatcher("/reg.jsp").forward(req, resp);
         }
 

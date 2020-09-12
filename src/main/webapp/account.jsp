@@ -13,11 +13,14 @@
 </head>
 <body>
     <form action="/account" method="post">
-        <input name="name" type="text" placeholder="name" required maxlength="50" minlength="3">
-        <input name="password" type="password" placeholder="password" required maxlength="100" minlength="1">
+        <input name="value" type="text" placeholder="login" required maxlength="50" minlength="3">
+        <select name="field" >
+            <option value="name">update name</option>
+            <option value="password">update password</option>
+        </select>
         <button>update</button>
     </form>
-
+    ${requestScope.message}
     <a href="/calc">calc</a>
 </body>
 </html>

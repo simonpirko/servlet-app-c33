@@ -13,4 +13,5 @@ public interface UserService {
     void remove(long id);
     void update(String name, long id);
     void update(User user);
+    boolean containUserByLogin(String login);
 }
